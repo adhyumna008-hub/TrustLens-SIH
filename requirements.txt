@@ -7,7 +7,7 @@ soundfile==0.12.1
 numpy==1.26.4
 faster-whisper==1.0.3
 transformers==4.44.2
-torch==2.2.0
+torch==2.13.0
 anthropic==0.34.2
 pydub==0.25.1
 gunicorn==21.2.0
