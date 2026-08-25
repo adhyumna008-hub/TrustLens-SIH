@@ -20,7 +20,7 @@ from app.schemas import (
 
 router = APIRouter(prefix="/cases", tags=["cases"])
 
-ALLOWED_EXTENSIONS = {".wav", ".mp3", ".m4a", ".ogg", ".opus", ".flac", ".webm", ".3gp", ".mp4"}
+ALLOWED_EXTENSIONS = {".wav", ".mp3", ".m4a", ".ogg", ".opus", ".flac", ".webm", ".3gp", ".mp4", ".aac", ".dat"}
 
 
 def _to_result_response(case: CaseRecord) -> CaseResultResponse:
