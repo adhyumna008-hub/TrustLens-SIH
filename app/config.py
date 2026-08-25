@@ -21,7 +21,8 @@ ANTHROPIC_MODEL = os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-5")
 SPOOF_MODEL_NAME = os.environ.get("SPOOF_MODEL_NAME", "MelodyMachine/Deepfake-audio-detection-V2")
 
 # --- Transcription (faster-whisper, fully local) ---
-WHISPER_MODEL_SIZE = os.environ.get("WHISPER_MODEL_SIZE", "small")
+# Using 'tiny' for faster local iteration - switch to 'small' or 'base' for better accuracy
+WHISPER_MODEL_SIZE = os.environ.get("WHISPER_MODEL_SIZE", "tiny")
 WHISPER_DEVICE = os.environ.get("WHISPER_DEVICE", "cpu")
 WHISPER_COMPUTE_TYPE = os.environ.get("WHISPER_COMPUTE_TYPE", "int8")
 

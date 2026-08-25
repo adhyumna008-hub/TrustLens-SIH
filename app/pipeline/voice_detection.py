@@ -82,6 +82,7 @@ def detect_synthetic_voice(audio_path: str) -> dict:
     if _model_pipeline is not None:
         try:
             results = _model_pipeline(audio_path)  # list of {"label": ..., "score": ...}
+            logger.info(f"Raw voice-detection model output: {results}")
 
             synthetic_prob = 0.0
             matched_spoof_label = False

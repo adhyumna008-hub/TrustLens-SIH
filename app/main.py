@@ -1,4 +1,7 @@
 import logging
+from dotenv import load_dotenv
+
+load_dotenv()
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -35,3 +38,11 @@ def announce_startup():
     log.info(f"TrustLens backend ready — local base URL: http://{HOST}:{PORT}")
     log.info(f"From a physical Android phone on the same Wi-Fi, use: http://<this-computer's-LAN-IP>:{PORT}")
     log.info(f"Interactive API docs: http://localhost:{PORT}/docs")
+
+    # Warm up models now, not on the first case — avoids a case looking "stuck"
+    log.info("Pre-loading voice detection and transcription models (may take a few minutes on first run)...")
+    from app.pipeline.voice_detection import _try_load_model as _load_voice_model
+    from app.pipeline.transcription import _load_model as _load_whisper_model
+    _load_voice_model()
+    _load_whisper_model()
+    log.info("Model warm-up complete.")
