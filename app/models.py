@@ -28,6 +28,11 @@ class CaseRecord(Base):
     voice_detection_mode = Column(String, nullable=True)  # "model" or "experimental"
     similarity_score = Column(Float, nullable=True)       # vs. enrolled trusted contact, if any
 
+    # Individual risk components
+    voice_risk = Column(Float, nullable=True)            # voice synthetic probability (0-1)
+    conversation_risk = Column(Float, nullable=True)     # conversation scam probability (0-1)
+    total_risk = Column(Float, nullable=True)            # combined scam probability (0-1)
+
     transcript = Column(Text, nullable=True)
     evidence_summary = Column(Text, nullable=True)  # JSON-encoded list[str]
     error_message = Column(Text, nullable=True)

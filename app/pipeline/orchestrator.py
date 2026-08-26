@@ -8,7 +8,7 @@ from app.config import AUDIO_DIR, DELETE_AUDIO_AFTER_PROCESSING
 from app.database import SessionLocal
 from app.models import CaseRecord, TranscriptFlagRecord
 from app.pipeline.conversation_risk import analyze_conversation_risk
-from app.pipeline.preprocessing import preprocess_audio
+from app.pipeline.preprocessing import preprocess_audio, get_audio_reliability_label
 from app.pipeline.risk_engine import compute_risk
 from app.pipeline.transcription import transcribe_audio
 from app.pipeline.voice_detection import detect_synthetic_voice
@@ -54,6 +54,11 @@ def run_pipeline(case_id: str):
         case.voice_score = voice_result["synthetic_probability"]
         case.voice_confidence = voice_result["confidence"]
         case.voice_detection_mode = voice_result["mode"]
+
+        # Store audio reliability for evidence generation
+        audio_reliability = get_audio_reliability_label(meta)
+        logger.info(f"Case {case_id}: audio reliability = {audio_reliability}")
+
         db.commit()
 
         # 3. Transcription
@@ -85,8 +90,24 @@ def run_pipeline(case_id: str):
             conversation_flags=conversation_flags,
             similarity_score=case.similarity_score,
         )
+
+        # Update evidence with reliability information
+        evidence = risk_result["evidence"]
+        if audio_reliability == "low_reliability":
+            evidence.append(
+                "Note: Audio quality is low — voice detection accuracy may be reduced. "
+                "Treat voice signal as inconclusive."
+            )
+        elif audio_reliability == "reduced_reliability":
+            evidence.append(
+                "Note: Audio was transcoded or has reduced quality — voice detection certainty is limited."
+            )
+
         case.risk_level = risk_result["riskLevel"]
-        case.evidence_summary = json.dumps(risk_result["evidence"])
+        case.voice_risk = risk_result["voiceRisk"]
+        case.conversation_risk = risk_result["conversationRisk"]
+        case.total_risk = risk_result["totalRisk"]
+        case.evidence_summary = json.dumps(evidence)
         case.status = "DONE"
         db.commit()
 

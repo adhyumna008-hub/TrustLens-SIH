@@ -61,6 +61,10 @@ class CaseResultResponse(BaseModel):
     transcriptFlags: List[TranscriptFlagOut] = []
     evidence: List[str] = []
     errorMessage: Optional[str] = None
+    # New individual risk components
+    voiceRisk: Optional[float] = None
+    conversationRisk: Optional[float] = None
+    totalRisk: Optional[float] = None
 
 
 class TrustedIdentityResponse(BaseModel):

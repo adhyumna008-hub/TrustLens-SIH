@@ -41,6 +41,9 @@ def _to_result_response(case: CaseRecord) -> CaseResultResponse:
         transcriptFlags=flags,
         evidence=evidence,
         errorMessage=case.error_message,
+        voiceRisk=case.voice_risk,
+        conversationRisk=case.conversation_risk,
+        totalRisk=case.total_risk,
     )
 
 
