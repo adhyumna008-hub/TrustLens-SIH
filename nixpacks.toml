@@ -13,4 +13,4 @@ cmds = [
 cmd = "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
 
 [phases.install]
-aptPkgs = ["ffmpeg", "libsox-dev", "libsox-doc", "libsox-fmt-all", "sox", "libavcodec-extra", "libavformat-extra", "libavutil-extra", "libswscale-extra", "libavfilter-extra", "libavdevice-extra"]
+aptPkgs = ["ffmpeg", "libsox-dev", "libsox-doc", "libsox-fmt-all", "sox", "libavcodec-extra", "libavformat-extra", "libavutil-extra", "libswscale-extra", "libavfilter-extra", "libavdevice-extra", "pkg-config"]
