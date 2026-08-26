@@ -8,7 +8,6 @@ RUN apt-get update && apt-get install -y \
     libavdevice-extra \
     libavfilter-extra \
     libswscale-extra \
-    libswresample-extra \
     pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
